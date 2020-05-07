@@ -8,10 +8,17 @@
 
 import UIKit
 
-class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScrollViewDelegate {
+class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+    
+    
 
     var emojiAetView = EmojiArtView()
     var imageFeacher:ImageFetcher!
+    let emojies = "😀😁👶👧🧒👦👩👯‍♂️🕴🚶‍♀️🚶‍♂️🐨🐯🦁🐮🐷⚽️🏀🏈⚾️🥎🍏🍎🍐🍊🍋🍌🥐🥯🍞🥖🥨🧀🚗🚙🚕🚌🚎⌚️📱💻⌨️🖥🖨🏳️🏴🏁🚩🏳️‍🌈🏴‍☠️🇦🇫🇦🇽🇦🇱".map {return String($0)}
+    
+    private var font :UIFont{
+        return UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.preferredFont(forTextStyle: .body).withSize(100))
+    }
     
     @IBOutlet weak var drobZone: UIView!{
         didSet{
@@ -30,6 +37,13 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
     @IBOutlet weak var widthOfScrollView: NSLayoutConstraint!
     
     @IBOutlet weak var hightOfScrollView: NSLayoutConstraint!
+    
+    @IBOutlet weak var emojisCollectionView: UICollectionView!{
+        didSet{
+            emojisCollectionView.dataSource = self
+            emojisCollectionView.delegate = self
+        }
+    }
     
     
     var emojiArtBackgeound: UIImage? {
@@ -78,6 +92,25 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
                 self.imageFeacher.backup = image
             }
         })
+    }
+    
+    
+    
+    
+    //collection view delegate
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return emojies.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmojiCell", for: indexPath)
+        if let emojiCell = cell as? EmojiCollectionViewCell {
+            emojiCell.emojiLabel.attributedText = NSAttributedString(string: emojies[indexPath.row], attributes: [.font:font])
+            return emojiCell
+        }
+        
+        return cell
     }
     
 }
