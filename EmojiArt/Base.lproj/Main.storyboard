@@ -134,6 +134,24 @@
                                             <outlet property="emojiLabel" destination="MEa-q0-wZz" id="3x6-2b-3Dx"/>
                                         </connections>
                                     </collectionViewCell>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" reuseIdentifier="EmojiPlaceHolder" id="FGZ-ue-lvk">
+                                        <rect key="frame" x="61" y="0.0" width="120" height="120"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <collectionViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" id="3Vs-Iw-1Y5">
+                                            <rect key="frame" x="0.0" y="0.0" width="120" height="120"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="hpB-AW-Ujf">
+                                                    <rect key="frame" x="41.5" y="41.5" width="37" height="37"/>
+                                                    <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </activityIndicatorView>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="hpB-AW-Ujf" firstAttribute="centerX" secondItem="3Vs-Iw-1Y5" secondAttribute="centerX" id="Eea-2X-aIm"/>
+                                                <constraint firstItem="hpB-AW-Ujf" firstAttribute="centerY" secondItem="3Vs-Iw-1Y5" secondAttribute="centerY" id="R70-G9-Tqa"/>
+                                            </constraints>
+                                        </collectionViewCellContentView>
+                                    </collectionViewCell>
                                 </cells>
                             </collectionView>
                         </subviews>
