@@ -121,6 +121,9 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
         
         return cell
     }
+    
+    
+    
     //drag interaction methods
     func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
         session.localContext = collectionView
