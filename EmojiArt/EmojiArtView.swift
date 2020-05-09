@@ -41,6 +41,7 @@ class EmojiArtView: UIView, UIDropInteractionDelegate {
         label.backgroundColor = .clear
         label.center = point
         label.sizeToFit()
+        addEmojiArtGestureRecognizers(to: label)
         addSubview(label)
     }
     
