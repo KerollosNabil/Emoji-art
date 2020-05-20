@@ -14,7 +14,13 @@ class InputCollectionViewCell: UICollectionViewCell, UITextFieldDelegate {
     @IBOutlet weak var InputField: UITextField!{
         didSet{
             InputField.delegate = self
+            
         }
+    }
+    var resignationHandeler : (()->Void)?
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        resignationHandeler?()
     }
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()

@@ -139,11 +139,22 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
             
             return cell
         }else if takingInput {
+            
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "InputCell", for: indexPath)
             print(cell.frame)
             if let inputCell = cell as? InputCollectionViewCell{
                 inputCell.InputField.frame = cell.frame
+                inputCell.resignationHandeler = {[weak self, unowned inputCell] in
+                    if let text = inputCell.InputField.text {
+                        self?.emojies = (text.map({String($0)}) + self!.emojies).uniquified
+                         
+                    }
+                    self?.takingInput = false
+                    self?.emojisCollectionView.reloadData()
+                }
+            
             }
+            
             return cell
         }
         else{
