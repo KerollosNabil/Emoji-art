@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		04634D3A2475B91900FABD77 /* InputCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04634D392475B91800FABD77 /* InputCollectionViewCell.swift */; };
 		C119A55B24548CFD001B45E6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = C119A55A24548CFD001B45E6 /* Utilities.swift */; };
 		C119A55D24548D47001B45E6 /* EnojiArtViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C119A55C24548D47001B45E6 /* EnojiArtViewController.swift */; };
 		C119A56124548EFB001B45E6 /* EmojiArtView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C119A56024548EFB001B45E6 /* EmojiArtView.swift */; };
@@ -21,6 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		04634D392475B91800FABD77 /* InputCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputCollectionViewCell.swift; sourceTree = "<group>"; };
 		C119A55A24548CFD001B45E6 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		C119A55C24548D47001B45E6 /* EnojiArtViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnojiArtViewController.swift; sourceTree = "<group>"; };
 		C119A56024548EFB001B45E6 /* EmojiArtView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiArtView.swift; sourceTree = "<group>"; };
@@ -67,6 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				C178F7C42453367C00C5A2E0 /* Main.storyboard */,
+				04634D392475B91800FABD77 /* InputCollectionViewCell.swift */,
 				C119A55C24548D47001B45E6 /* EnojiArtViewController.swift */,
 				C1F9757F24644E9F00B91389 /* EmojiCollectionViewCell.swift */,
 				C1E30F7F2458616E002BC426 /* ChoseTableViewController.swift */,
@@ -157,6 +160,7 @@
 				C1BDC7532465EBC000328AC8 /* EmojiArtView+Gestures.swift in Sources */,
 				C119A55B24548CFD001B45E6 /* Utilities.swift in Sources */,
 				C119A56124548EFB001B45E6 /* EmojiArtView.swift in Sources */,
+				04634D3A2475B91900FABD77 /* InputCollectionViewCell.swift in Sources */,
 				C178F7BF2453367C00C5A2E0 /* AppDelegate.swift in Sources */,
 				C119A55D24548D47001B45E6 /* EnojiArtViewController.swift in Sources */,
 				C1E30F802458616E002BC426 /* ChoseTableViewController.swift in Sources */,

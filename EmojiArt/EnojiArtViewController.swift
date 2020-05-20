@@ -16,6 +16,7 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
     
     
 //vatiables
+    private var takingInput = false
     private var emojiAetView = EmojiArtView()
     private var imageFeacher:ImageFetcher!
     private var emojies = "😀😁👶👧🧒👦👩👯‍♂️🕴🚶‍♀️🚶‍♂️🐨🐯🦁🐮🐷⚽️🏀🏈⚾️🥎🍏🍎🍐🍊🍋🍌🥐🥯🍞🥖🥨🧀🚗🚙🚕🚌🚎⌚️📱💻⌨️🖥🖨🏳️🏴🏁🚩🏳️‍🌈🏴‍☠️🇦🇫🇦🇽🇦🇱".map {return String($0)} // future this needs to be a model
@@ -67,6 +68,12 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
     @IBOutlet weak var hightOfScrollView: NSLayoutConstraint!
     
     
+    //actions
+    
+    @IBAction func addEmoji(_ sender: Any) {
+        takingInput = true
+        emojisCollectionView.reloadSections(IndexSet(integer: 0))
+    }
     
     
     //scrollview methods
@@ -108,20 +115,54 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
     
     //collection view delegate
     
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 2
+    }
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return emojies.count
+        switch section {
+        case 0:
+            return 1
+        case 1:
+            return emojies.count
+        default:
+            return 0
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmojiCell", for: indexPath)
-        if let emojiCell = cell as? EmojiCollectionViewCell {
-            emojiCell.emojiLabel.attributedText = NSAttributedString(string: emojies[indexPath.row], attributes: [.font:font])
-            return emojiCell
+        if indexPath.section == 1{
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "EmojiCell", for: indexPath)
+            if let emojiCell = cell as? EmojiCollectionViewCell {
+                emojiCell.emojiLabel.attributedText = NSAttributedString(string: emojies[indexPath.row], attributes: [.font:font])
+                return emojiCell
+            }
+            
+            return cell
+        }else if takingInput {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "InputCell", for: indexPath)
+            print(cell.frame)
+            if let inputCell = cell as? InputCollectionViewCell{
+                inputCell.InputField.frame = cell.frame
+            }
+            return cell
         }
-        
-        return cell
+        else{
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AddEmohiButtonCell", for: indexPath)
+            return cell
+        }
     }
-    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        if indexPath.section == 0, takingInput {
+            return CGSize(width: 400, height: 110)
+        }else{
+            return CGSize(width: 110, height: 110)
+        }
+    }
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        if let inputCell = cell as? InputCollectionViewCell{
+            inputCell.InputField.becomeFirstResponder()
+        }
+    }
     
     
 //    drag interaction methods
@@ -130,7 +171,7 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
         return dragItems(at: indexPath)
     }
     private func dragItems(at indexPath:IndexPath) -> [UIDragItem]{
-        if let attrStr = (emojisCollectionView.cellForItem(at: indexPath) as? EmojiCollectionViewCell)?.emojiLabel.attributedText{
+        if !takingInput, let attrStr = (emojisCollectionView.cellForItem(at: indexPath) as? EmojiCollectionViewCell)?.emojiLabel.attributedText{
             let dragItem = UIDragItem(itemProvider: NSItemProvider(object: attrStr))
             dragItem.localObject = attrStr
             return [dragItem]
@@ -143,7 +184,11 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
         return session.canLoadObjects(ofClass: NSAttributedString.self)
     }
     func collectionView(_ collectionView: UICollectionView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UICollectionViewDropProposal {
-        return UICollectionViewDropProposal(operation: ((session.localDragSession?.localContext as? UICollectionView) == collectionView) ? .move : .copy, intent: .insertAtDestinationIndexPath)
+        if destinationIndexPath?.section == 1 {
+            return UICollectionViewDropProposal(operation: ((session.localDragSession?.localContext as? UICollectionView) == collectionView) ? .move : .copy, intent: .insertAtDestinationIndexPath)
+        }else{
+            return  UICollectionViewDropProposal(operation: .cancel)
+        }
     }
     func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
         let destenationIndexPath = coordinator.destinationIndexPath ?? IndexPath(item: 0, section: 0)
