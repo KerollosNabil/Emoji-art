@@ -8,29 +8,72 @@
 
 import UIKit
 
+
+extension EmojiArt.emojiDetails{
+    init?(label: UILabel) {
+        if let string = label.attributedText?.string, let font = label.attributedText?.font{
+            x = Double(label.center.x)
+            y = Double(label.center.y)
+            size = Double(font.pointSize)
+            emoji = string
+        }else {
+            return nil
+        }
+        
+    }
+}
+
 class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDragDelegate, UICollectionViewDropDelegate {
     
     
+    // MARK: model
+    
+    private var emojiArt: EmojiArt?{
+        get{
+            if let url = emojiArtBackgeound.url {
+                let emojies = emojiAetView.subviews.compactMap {$0 as? UILabel}.compactMap{EmojiArt.emojiDetails(label: $0)}
+                return EmojiArt(url: url, emojies: emojies)
+            }
+            return nil
+        }set{
+            emojiArtBackgeound = (nil,nil)
+            emojiAetView.subviews.forEach({
+                $0.removeFromSuperview()
+            })
+            if let url = newValue?.url{
+                imageFeacher = ImageFetcher(fetch: url, handler: {(imgUrl, image) in
+                    DispatchQueue.main.async {
+                        self.emojiArtBackgeound = (imgUrl, image)
+                        newValue?.emijies.forEach({
+                            self.emojiAetView.addLabel(with: $0.emoji.attributedString(withTextStyle: .body, ofSize: CGFloat($0.size)), coordinateAt: CGPoint(x: $0.x, y: $0.y))
+                        })
+                        
+                    }
+                })
+            }
+        }
+    }
     
     
     
-    
-//vatiables
+// MARK: vatiables
     private var takingInput = false
     private var emojiAetView = EmojiArtView()
     private var imageFeacher:ImageFetcher!
+    private var _imageUrl: URL?
     private var emojies = "😀😁👶👧🧒👦👩👯‍♂️🕴🚶‍♀️🚶‍♂️🐨🐯🦁🐮🐷⚽️🏀🏈⚾️🥎🍏🍎🍐🍊🍋🍌🥐🥯🍞🥖🥨🧀🚗🚙🚕🚌🚎⌚️📱💻⌨️🖥🖨🏳️🏴🏁🚩🏳️‍🌈🏴‍☠️🇦🇫🇦🇽🇦🇱".map {return String($0)} // future this needs to be a model
     
     private var font :UIFont{
         return UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.preferredFont(forTextStyle: .body).withSize(100))
     }
-    private var emojiArtBackgeound: UIImage? {
+    private var emojiArtBackgeound: (url:URL?, image:UIImage?) {
         get{
-            return emojiAetView.backGround
+            return (_imageUrl, emojiAetView.backGround)
         }set{
+            _imageUrl = newValue.url
             imageScrollView.zoomScale = 1.0
-            emojiAetView.backGround = newValue
-            let size = newValue?.size ?? CGSize.zero
+            emojiAetView.backGround = newValue.image
+            let size = newValue.image?.size ?? CGSize.zero
             emojiAetView.frame = CGRect(origin: CGPoint.zero, size: size)
             imageScrollView.contentSize = size
             widthOfScrollView.constant = size.width
@@ -40,7 +83,7 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
             }
         }
     }
-    //outlets
+    // MARK: outlets
     @IBOutlet weak var drobZone: UIView!{
         didSet{
             drobZone.addInteraction(UIDropInteraction(delegate: self))
@@ -68,7 +111,7 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
     @IBOutlet weak var hightOfScrollView: NSLayoutConstraint!
     
     
-    //actions
+    // MARK: actions
     
     @IBAction func addEmoji(_ sender: Any) {
         takingInput = true
@@ -76,7 +119,7 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
     }
     
     
-    //scrollview methods
+    // MARK: scrollview methods
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
         widthOfScrollView.constant = scrollView.contentSize.width
         hightOfScrollView.constant = scrollView.contentSize.height
@@ -84,7 +127,7 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return emojiAetView
     }
-    //dropzone methosd
+    // MARK: dropzone methosd
     func dropInteraction(_ interaction: UIDropInteraction, canHandle session: UIDropSession) -> Bool {
         return session.canLoadObjects(ofClass: NSURL.self) && session.canLoadObjects(ofClass: UIImage.self)
     }
@@ -94,7 +137,7 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
     func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
         imageFeacher = ImageFetcher(){(url, image) in
             DispatchQueue.main.async {
-                self.emojiArtBackgeound = image
+                self.emojiArtBackgeound = (url, image)
             }
             
         }
@@ -113,7 +156,7 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
     
     
     
-    //collection view delegate
+    // MARK: collection view delegate
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 2
@@ -143,6 +186,7 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "InputCell", for: indexPath)
             print(cell.frame)
             if let inputCell = cell as? InputCollectionViewCell{
+                inputCell.InputField.sizeToFit()
                 inputCell.InputField.frame = cell.frame
                 inputCell.resignationHandeler = {[weak self, unowned inputCell] in
                     if let text = inputCell.InputField.text {
@@ -176,7 +220,7 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
     }
     
     
-//    drag interaction methods
+    // MARK: drag interaction methods
     func collectionView(_ collectionView: UICollectionView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
         session.localContext = collectionView
         return dragItems(at: indexPath)
@@ -190,7 +234,7 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
             return []
         }
     }
-    //drop interaction
+    // MARK: drop interaction
     func collectionView(_ collectionView: UICollectionView, canHandle session: UIDropSession) -> Bool {
         return session.canLoadObjects(ofClass: NSAttributedString.self)
     }

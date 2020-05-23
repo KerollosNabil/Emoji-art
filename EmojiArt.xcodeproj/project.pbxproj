@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		04634D3A2475B91900FABD77 /* InputCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04634D392475B91800FABD77 /* InputCollectionViewCell.swift */; };
+		04E7CF4F2477163A003AE2C1 /* EmojiArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04E7CF4E2477163A003AE2C1 /* EmojiArt.swift */; };
 		C119A55B24548CFD001B45E6 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = C119A55A24548CFD001B45E6 /* Utilities.swift */; };
 		C119A55D24548D47001B45E6 /* EnojiArtViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C119A55C24548D47001B45E6 /* EnojiArtViewController.swift */; };
 		C119A56124548EFB001B45E6 /* EmojiArtView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C119A56024548EFB001B45E6 /* EmojiArtView.swift */; };
@@ -23,6 +24,7 @@
 
 /* Begin PBXFileReference section */
 		04634D392475B91800FABD77 /* InputCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputCollectionViewCell.swift; sourceTree = "<group>"; };
+		04E7CF4E2477163A003AE2C1 /* EmojiArt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiArt.swift; sourceTree = "<group>"; };
 		C119A55A24548CFD001B45E6 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		C119A55C24548D47001B45E6 /* EnojiArtViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnojiArtViewController.swift; sourceTree = "<group>"; };
 		C119A56024548EFB001B45E6 /* EmojiArtView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiArtView.swift; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 		C178F7BD2453367C00C5A2E0 /* EmojiArt */ = {
 			isa = PBXGroup;
 			children = (
+				04E7CF4E2477163A003AE2C1 /* EmojiArt.swift */,
 				C178F7C42453367C00C5A2E0 /* Main.storyboard */,
 				C119A55C24548D47001B45E6 /* EnojiArtViewController.swift */,
 				C1F9757F24644E9F00B91389 /* EmojiCollectionViewCell.swift */,
@@ -158,6 +161,7 @@
 			files = (
 				C1F9758024644E9F00B91389 /* EmojiCollectionViewCell.swift in Sources */,
 				C1BDC7532465EBC000328AC8 /* EmojiArtView+Gestures.swift in Sources */,
+				04E7CF4F2477163A003AE2C1 /* EmojiArt.swift in Sources */,
 				C119A55B24548CFD001B45E6 /* Utilities.swift in Sources */,
 				C119A56124548EFB001B45E6 /* EmojiArtView.swift in Sources */,
 				04634D3A2475B91900FABD77 /* InputCollectionViewCell.swift in Sources */,
