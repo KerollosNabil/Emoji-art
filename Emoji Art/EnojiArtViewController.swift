@@ -57,6 +57,7 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
     
     
 // MARK: vatiables
+    private var document:Document?
     private var takingInput = false
     private var emojiAetView = EmojiArtView()
     private var imageFeacher:ImageFetcher!
@@ -114,19 +115,17 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
     // MARK: actions
     
     
-    @IBAction func saveButton(_ sender: UIBarButtonItem) {
-        if let data = emojiArt?.jason {
-            if let url = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("Untitled.json"){
-                do{
-                    try data.write(to: url)
-                    print("file saved succesfully")
-                }catch _{
-                    print("canot save the file")
-                }
-            }
+    @IBAction func saveButton(_ sender: UIBarButtonItem? = nil) {
+        document?.emojiArt = emojiArt
+        if document?.emojiArt != nil {
+            document?.updateChangeCount(.done)
         }
     }
     
+    @IBAction func close(_ sender: UIBarButtonItem) {
+        saveButton()
+        document?.close()
+    }
     
     @IBAction func addEmoji(_ sender: Any) {
         takingInput = true
@@ -136,11 +135,21 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
     
     //MAEK: life sicles
     
+    override func viewDidLoad() {
+        if let url = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("Untitled.json"){
+            print(url.absoluteString)
+            document = Document(fileURL: url)
+        }
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if let url = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("Untitled.json"){
-            self.emojiArt = EmojiArt(json: try! Data(contentsOf: url))
-        }
+        document?.open(completionHandler: { (success) in
+            if success{
+                self.title = self.document?.localizedName
+                self.emojiArt = self.document?.emojiArt
+            }
+        })
     }
     
     // MARK: scrollview methods
