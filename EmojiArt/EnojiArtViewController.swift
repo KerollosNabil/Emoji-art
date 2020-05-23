@@ -113,11 +113,35 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
     
     // MARK: actions
     
+    
+    @IBAction func saveButton(_ sender: UIBarButtonItem) {
+        if let data = emojiArt?.jason {
+            if let url = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("Untitled.json"){
+                do{
+                    try data.write(to: url)
+                    print("file saved succesfully")
+                }catch _{
+                    print("canot save the file")
+                }
+            }
+        }
+    }
+    
+    
     @IBAction func addEmoji(_ sender: Any) {
         takingInput = true
         emojisCollectionView.reloadSections(IndexSet(integer: 0))
     }
     
+    
+    //MAEK: life sicles
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let url = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("Untitled.json"){
+            self.emojiArt = EmojiArt(json: try! Data(contentsOf: url))
+        }
+    }
     
     // MARK: scrollview methods
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
