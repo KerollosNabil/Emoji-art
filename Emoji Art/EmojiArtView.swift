@@ -8,7 +8,14 @@
 
 import UIKit
 
+protocol EmojiArtDelegate:class {
+    func viewHasChanged()
+}
+
 class EmojiArtView: UIView, UIDropInteractionDelegate {
+    
+    var delegate:EmojiArtDelegate?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setub()
@@ -32,6 +39,7 @@ class EmojiArtView: UIView, UIDropInteractionDelegate {
             let dropLocation = session.location(in: self)
             for attrStr in provider as? [NSAttributedString] ?? []{
                 self.addLabel(with: attrStr, centeredAt: dropLocation)
+                self.delegate?.viewHasChanged()
             }
         }
     }

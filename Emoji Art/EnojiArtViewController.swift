@@ -23,7 +23,11 @@ extension EmojiArt.emojiDetails{
     }
 }
 
-class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDragDelegate, UICollectionViewDropDelegate {
+class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDragDelegate, UICollectionViewDropDelegate,EmojiArtDelegate {
+    func viewHasChanged() {
+        save()
+    }
+    
     
     
     // MARK: model
@@ -59,11 +63,15 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
 // MARK: vatiables
     var document:Document?
     private var takingInput = false
-    private var emojiAetView = EmojiArtView()
     private var imageFeacher:ImageFetcher!
     private var _imageUrl: URL?
     private var emojies = "😀😁👶👧🧒👦👩👯‍♂️🕴🚶‍♀️🚶‍♂️🐨🐯🦁🐮🐷⚽️🏀🏈⚾️🥎🍏🍎🍐🍊🍋🍌🥐🥯🍞🥖🥨🧀🚗🚙🚕🚌🚎⌚️📱💻⌨️🖥🖨🏳️🏴🏁🚩🏳️‍🌈🏴‍☠️🇦🇫🇦🇽🇦🇱".map {return String($0)} // future this needs to be a model
     
+    lazy private var emojiAetView:EmojiArtView = {
+        var viw = EmojiArtView()
+        viw.delegate = self
+        return viw
+    }()
     private var font :UIFont{
         return UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.preferredFont(forTextStyle: .body).withSize(100))
     }
@@ -116,7 +124,7 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
     // MARK: actions
     
     
-    @IBAction func saveButton(_ sender: UIBarButtonItem? = nil) {
+    func save() {
         document?.emojiArt = emojiArt
         if document?.emojiArt != nil {
             document?.updateChangeCount(.done)
@@ -124,7 +132,6 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
     }
     
     @IBAction func close(_ sender: UIBarButtonItem) {
-        saveButton()
         if document?.emojiArt != nil {
             document?.thumbnail = emojiAetView.snapshot
         }
@@ -173,6 +180,7 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
         imageFeacher = ImageFetcher(){(url, image) in
             DispatchQueue.main.async {
                 self.emojiArtBackgeound = (url, image)
+                self.viewHasChanged()
             }
             
         }
