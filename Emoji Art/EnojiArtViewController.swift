@@ -45,7 +45,7 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
                     DispatchQueue.main.async {
                         self.emojiArtBackgeound = (imgUrl, image)
                         newValue?.emijies.forEach({
-                            self.emojiAetView.addLabel(with: $0.emoji.attributedString(withTextStyle: .body, ofSize: CGFloat($0.size)), coordinateAt: CGPoint(x: $0.x, y: $0.y))
+                            self.emojiAetView.addLabel(with: $0.emoji.attributedString(withTextStyle: .body, ofSize: CGFloat($0.size)), centeredAt: CGPoint(x: $0.x, y: $0.y))
                         })
                         
                     }

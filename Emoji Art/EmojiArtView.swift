@@ -31,16 +31,16 @@ class EmojiArtView: UIView, UIDropInteractionDelegate {
         session.loadObjects(ofClass: NSAttributedString.self) { (provider) in
             let dropLocation = session.location(in: self)
             for attrStr in provider as? [NSAttributedString] ?? []{
-                self.addLabel(with: attrStr, coordinateAt: dropLocation)
+                self.addLabel(with: attrStr, centeredAt: dropLocation)
             }
         }
     }
-    func addLabel(with attrStr: NSAttributedString,coordinateAt point :CGPoint ) {
+    func addLabel(with attrStr: NSAttributedString,centeredAt point :CGPoint ) {
         let label = UILabel()
         label.attributedText = attrStr
         label.backgroundColor = .clear
-        label.center = point
         label.sizeToFit()
+        label.center = point
         addEmojiArtGestureRecognizers(to: label)
         addSubview(label)
     }
