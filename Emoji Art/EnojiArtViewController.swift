@@ -57,7 +57,7 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
     
     
 // MARK: vatiables
-    private var document:Document?
+    var document:Document?
     private var takingInput = false
     private var emojiAetView = EmojiArtView()
     private var imageFeacher:ImageFetcher!
@@ -105,6 +105,7 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
             emojisCollectionView.delegate = self
             emojisCollectionView.dragDelegate = self
             emojisCollectionView.dropDelegate = self
+            emojisCollectionView.dragInteractionEnabled = true
         }
     }
     @IBOutlet weak var widthOfScrollView: NSLayoutConstraint!
@@ -124,7 +125,13 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
     
     @IBAction func close(_ sender: UIBarButtonItem) {
         saveButton()
-        document?.close()
+        if document?.emojiArt != nil {
+            document?.thumbnail = emojiAetView.snapshot
+        }
+        dismiss(animated: true, completion: {
+            self.document?.close()
+        })
+        
     }
     
     @IBAction func addEmoji(_ sender: Any) {
@@ -135,12 +142,7 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
     
     //MAEK: life sicles
     
-    override func viewDidLoad() {
-        if let url = try? FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("Untitled.json"){
-            print(url.absoluteString)
-            document = Document(fileURL: url)
-        }
-    }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)

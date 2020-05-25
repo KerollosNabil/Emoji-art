@@ -71,15 +71,15 @@
 			isa = PBXGroup;
 			children = (
 				046A0E4C2479A58400E6F5F9 /* Main.storyboard */,
-				046A0E5F2479B15100E6F5F9 /* EmojiArt.swift */,
+				046A0E462479A58400E6F5F9 /* DocumentBrowserViewController.swift */,
+				046A0E612479B15100E6F5F9 /* EnojiArtViewController.swift */,
 				046A0E5D2479B15100E6F5F9 /* EmojiArtView.swift */,
 				046A0E602479B15100E6F5F9 /* EmojiArtView+Gestures.swift */,
+				046A0E4A2479A58400E6F5F9 /* Document.swift */,
 				046A0E5E2479B15100E6F5F9 /* EmojiCollectionViewCell.swift */,
-				046A0E612479B15100E6F5F9 /* EnojiArtViewController.swift */,
 				046A0E5C2479B15100E6F5F9 /* InputCollectionViewCell.swift */,
 				046A0E5B2479B15100E6F5F9 /* Utilities.swift */,
-				046A0E462479A58400E6F5F9 /* DocumentBrowserViewController.swift */,
-				046A0E4A2479A58400E6F5F9 /* Document.swift */,
+				046A0E5F2479B15100E6F5F9 /* EmojiArt.swift */,
 				046A0E542479A58700E6F5F9 /* Info.plist */,
 				046A0E5A2479A5D800E6F5F9 /* Supporting Files */,
 			);
