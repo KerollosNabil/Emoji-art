@@ -10,7 +10,7 @@ import UIKit
 
 class Document: UIDocument {
     var emojiArt : EmojiArt?
-    var thumbnail: UIImage?
+    var thumbnail: UIImage? = UIImage(named: "art.jpg")
     override func contents(forType typeName: String) throws -> Any {
         // Encode your document with an instance of NSData or NSFileWrapper
         return emojiArt?.jason ?? Data()

@@ -27,7 +27,7 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
         
         // Do any additional setup after loading the view.
         if UIDevice.current.userInterfaceIdiom == .pad{
-            template = try? FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("template.json")
+            template = try? FileManager.default.url(for: .applicationSupportDirectory, in: .userDomainMask, appropriateFor: nil, create: true).appendingPathComponent("Untitled.emojiart")
             if template != nil {
                 allowsDocumentCreation = FileManager.default.createFile(atPath: template!.path, contents: Data())
             }

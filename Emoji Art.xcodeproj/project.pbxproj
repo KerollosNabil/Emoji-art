@@ -20,7 +20,21 @@
 		046A0E662479B15100E6F5F9 /* EmojiArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046A0E5F2479B15100E6F5F9 /* EmojiArt.swift */; };
 		046A0E672479B15100E6F5F9 /* EmojiArtView+Gestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046A0E602479B15100E6F5F9 /* EmojiArtView+Gestures.swift */; };
 		046A0E682479B15100E6F5F9 /* EnojiArtViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046A0E612479B15100E6F5F9 /* EnojiArtViewController.swift */; };
+		04BC317D247C7B57000D2F64 /* art.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 04BC317C247C7B57000D2F64 /* art.jpg */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		04BC3179247C7777000D2F64 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		046A0E412479A58400E6F5F9 /* Emoji Art.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Emoji Art.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -38,6 +52,7 @@
 		046A0E5F2479B15100E6F5F9 /* EmojiArt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojiArt.swift; sourceTree = "<group>"; };
 		046A0E602479B15100E6F5F9 /* EmojiArtView+Gestures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EmojiArtView+Gestures.swift"; sourceTree = "<group>"; };
 		046A0E612479B15100E6F5F9 /* EnojiArtViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnojiArtViewController.swift; sourceTree = "<group>"; };
+		04BC317C247C7B57000D2F64 /* art.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = art.jpg; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,6 +96,7 @@
 				046A0E5B2479B15100E6F5F9 /* Utilities.swift */,
 				046A0E5F2479B15100E6F5F9 /* EmojiArt.swift */,
 				046A0E542479A58700E6F5F9 /* Info.plist */,
+				04BC317C247C7B57000D2F64 /* art.jpg */,
 				046A0E5A2479A5D800E6F5F9 /* Supporting Files */,
 			);
 			path = "Emoji Art";
@@ -106,6 +122,7 @@
 				046A0E3D2479A58400E6F5F9 /* Sources */,
 				046A0E3E2479A58400E6F5F9 /* Frameworks */,
 				046A0E3F2479A58400E6F5F9 /* Resources */,
+				04BC3179247C7777000D2F64 /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
@@ -155,6 +172,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				046A0E532479A58700E6F5F9 /* LaunchScreen.storyboard in Resources */,
+				04BC317D247C7B57000D2F64 /* art.jpg in Resources */,
 				046A0E502479A58700E6F5F9 /* Assets.xcassets in Resources */,
 				046A0E4E2479A58400E6F5F9 /* Main.storyboard in Resources */,
 			);
@@ -319,6 +337,7 @@
 		046A0E582479A58700E6F5F9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Emoji Art/Info.plist";
@@ -336,6 +355,7 @@
 		046A0E592479A58700E6F5F9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = "Emoji Art/Info.plist";
