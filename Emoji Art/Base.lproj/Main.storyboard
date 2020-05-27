@@ -175,6 +175,11 @@
                                 <action selector="close:" destination="9ho-EN-HnA" id="OYj-gj-vF1"/>
                             </connections>
                         </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" title="Save Snapshot" id="Yls-bO-vkv">
+                            <connections>
+                                <action selector="saveImage:" destination="9ho-EN-HnA" id="uZJ-CW-73a"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="drobZone" destination="6tW-ii-dGY" id="AMD-iG-H8C"/>

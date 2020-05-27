@@ -23,7 +23,7 @@ extension EmojiArt.emojiDetails{
     }
 }
 
-class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDragDelegate, UICollectionViewDropDelegate,EmojiArtDelegate {
+class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDragDelegate, UICollectionViewDropDelegate, UIDocumentBrowserViewControllerDelegate, EmojiArtDelegate {
     func viewHasChanged() {
         save()
     }
@@ -73,7 +73,7 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
         return viw
     }()
     private var font :UIFont{
-        return UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.preferredFont(forTextStyle: .body).withSize(100))
+        return UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.preferredFont(forTextStyle: .body).withSize(80))
     }
     private var emojiArtBackgeound: (url:URL?, image:UIImage?) {
         get{
@@ -146,11 +146,56 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
         emojisCollectionView.reloadSections(IndexSet(integer: 0))
     }
     
+    @IBAction func saveImage(_ sender: UIBarButtonItem) {
+        
+        guard let image = emojiAetView.snapshot else { return }
+
+        UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+        
+    }
+    
+    @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        if let error = error {
+            // we got back an error!
+            let ac = UIAlertController(title: "Save error", message: error.localizedDescription, preferredStyle: .alert)
+            ac.addAction(UIAlertAction(title: "OK", style: .default))
+            present(ac, animated: true)
+        } else {
+            let imageView = UIImageView(image: image)
+            imageView.frame = emojiAetView.frame
+            emojiAetView.addSubview(imageView)
+            UIViewPropertyAnimator.runningPropertyAnimator(
+                withDuration: 0.6,
+                delay: 0.0,
+                options: [],
+                animations: {
+                    imageView.transform = CGAffineTransform.identity.scaledBy(x: 2, y: 2)
+            }) { (posstion) in
+                UIViewPropertyAnimator.runningPropertyAnimator(
+                    withDuration: 0.8,
+                    delay: 0.0,
+                    options: [],
+                    animations: {
+                        imageView.transform = CGAffineTransform.identity.scaledBy(x: 0.1, y: 0.1)
+                        imageView.alpha = 0
+                }) { (posstion) in
+                    imageView.removeFromSuperview()
+                }
+            }
+        }
+    }
     
     //MAEK: life sicles
     
     
-    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        if size.width > 0, size.height > 0{
+            imageScrollView.zoomScale = max(drobZone.bounds.width/size.width, drobZone.bounds.height/size.height)
+        }
+//        emojiAetView.setNeedsLayout()
+//        emojiAetView.setNeedsDisplay()
+        
+    }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         document?.open(completionHandler: { (success) in

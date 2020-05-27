@@ -67,7 +67,8 @@ class DocumentBrowserViewController: UIDocumentBrowserViewController, UIDocument
         if let emojiCV = documentVc.contents as? EnojiArtViewController {
             emojiCV.document = Document(fileURL: documentURL)
         }
-        
+        documentVc.modalPresentationStyle = .fullScreen
+        //print(documentVc.modalPresentationStyle)
         present(documentVc, animated: true)
         
         

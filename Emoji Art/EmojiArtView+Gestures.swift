@@ -51,6 +51,8 @@ extension EmojiArtView
         default:
             break
         }
+        self.delegate?.viewHasChanged()
+
     }
     
     func enableRecognizers() {
@@ -92,6 +94,8 @@ extension EmojiArtView
         default:
             break
         }
+        self.delegate?.viewHasChanged()
+
     }
     
     @objc func selectAndSendSubviewToBack(by recognizer: UITapGestureRecognizer) {
