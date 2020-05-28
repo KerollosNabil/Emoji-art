@@ -55,11 +55,8 @@
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="8wo-u2-Glb">
-                                <rect key="frame" x="0.0" y="50" width="1366" height="120"/>
+                                <rect key="frame" x="128" y="50" width="1238" height="120"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="120" id="qDk-Ap-X14"/>
-                                </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Sal-4e-rgk">
                                     <size key="itemSize" width="120" height="120"/>
                                     <size key="estimatedItemSize" width="120" height="120"/>
@@ -156,16 +153,33 @@
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yie-ip-tLv">
+                                <rect key="frame" x="0.0" y="49" width="120" height="120.5"/>
+                                <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="80"/>
+                                <color key="tintColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <state key="normal" backgroundImage="trash" catalog="system"/>
+                                <connections>
+                                    <action selector="deleteEmoji:" destination="9ho-EN-HnA" eventType="touchUpInside" id="7OY-0k-hav"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="8wo-u2-Glb" firstAttribute="top" secondItem="3Bs-Zp-cY5" secondAttribute="top" id="05i-gf-mc3"/>
+                            <constraint firstItem="6tW-ii-dGY" firstAttribute="top" secondItem="Yie-ip-tLv" secondAttribute="bottom" constant="8" symbolic="YES" id="KH3-cZ-on2"/>
+                            <constraint firstItem="8wo-u2-Glb" firstAttribute="leading" secondItem="Yie-ip-tLv" secondAttribute="trailing" constant="8" symbolic="YES" id="Mu2-x5-NJ6"/>
                             <constraint firstItem="6tW-ii-dGY" firstAttribute="leading" secondItem="TB1-gd-xIh" secondAttribute="leading" id="No1-2d-PUa"/>
-                            <constraint firstItem="8wo-u2-Glb" firstAttribute="leading" secondItem="3Bs-Zp-cY5" secondAttribute="leading" id="Uv5-ha-N7W"/>
+                            <constraint firstItem="6tW-ii-dGY" firstAttribute="height" secondItem="8wo-u2-Glb" secondAttribute="height" multiplier="6.88333" id="XbY-fl-Oea"/>
                             <constraint firstItem="6tW-ii-dGY" firstAttribute="top" secondItem="8wo-u2-Glb" secondAttribute="bottom" constant="8" symbolic="YES" id="bNJ-m1-wzC"/>
                             <constraint firstAttribute="trailing" secondItem="6tW-ii-dGY" secondAttribute="trailing" id="d2f-NX-VYY"/>
+                            <constraint firstItem="8wo-u2-Glb" firstAttribute="height" secondItem="Yie-ip-tLv" secondAttribute="height" id="eQP-tE-vux"/>
+                            <constraint firstItem="8wo-u2-Glb" firstAttribute="width" secondItem="Yie-ip-tLv" secondAttribute="width" multiplier="10.3167" id="lUs-IF-49o"/>
                             <constraint firstItem="3Bs-Zp-cY5" firstAttribute="trailing" secondItem="8wo-u2-Glb" secondAttribute="trailing" id="lXg-PO-HIJ"/>
                             <constraint firstItem="3Bs-Zp-cY5" firstAttribute="bottom" secondItem="6tW-ii-dGY" secondAttribute="bottom" id="waG-Bt-Mm8"/>
+                            <constraint firstItem="Yie-ip-tLv" firstAttribute="top" secondItem="3Bs-Zp-cY5" secondAttribute="top" id="xV9-lb-j3C"/>
+                            <constraint firstItem="Yie-ip-tLv" firstAttribute="leading" secondItem="3Bs-Zp-cY5" secondAttribute="leading" id="xjK-Tt-UE7"/>
+                            <constraint firstItem="8wo-u2-Glb" firstAttribute="leading" secondItem="Yie-ip-tLv" secondAttribute="trailing" constant="8" id="xmn-Me-I7E"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="3Bs-Zp-cY5"/>
                     </view>
@@ -182,6 +196,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="deleteButton" destination="Yie-ip-tLv" id="rFo-31-87z"/>
                         <outlet property="drobZone" destination="6tW-ii-dGY" id="AMD-iG-H8C"/>
                         <outlet property="emojisCollectionView" destination="8wo-u2-Glb" id="jlR-O5-xea"/>
                         <outlet property="hightOfScrollView" destination="cTU-xP-V12" id="RC5-Mc-wOj"/>
@@ -191,7 +206,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jre-ji-1Uj" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="755.92972181551966" y="29.882812499999996"/>
+            <point key="canvasLocation" x="755.49048316251822" y="29.882812499999996"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="Q37-sl-uu7">
@@ -212,4 +227,7 @@
             <point key="canvasLocation" x="62.811127379209367" y="29.882812499999996"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="trash" catalog="system" width="121" height="128"/>
+    </resources>
 </document>

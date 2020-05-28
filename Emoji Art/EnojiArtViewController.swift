@@ -90,9 +90,15 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
             if size.width > 0, size.height > 0{
                 imageScrollView.zoomScale = max(drobZone.bounds.width/size.width, drobZone.bounds.height/size.height)
             }
+            emojiAetView.subviews.compactMap {$0 as? UILabel}.forEach{$0.removeFromSuperview()}
         }
     }
     // MARK: outlets
+    @IBOutlet weak var deleteButton: UIButton!{
+        didSet{
+            deleteButton.addInteraction(UIDropInteraction(delegate: self))
+        }
+    }
     @IBOutlet weak var drobZone: UIView!{
         didSet{
             drobZone.addInteraction(UIDropInteraction(delegate: self))
@@ -154,6 +160,15 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
         
     }
     
+    @IBAction func deleteEmoji(_ sender: UIButton) {
+        let labels = emojiAetView.subviews.compactMap {$0 as? UILabel}
+        for label in labels{
+            if label.layer.borderWidth == 1 {
+                label.removeFromSuperview()
+                viewHasChanged()
+            }
+        }
+    }
     @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
         if let error = error {
             // we got back an error!
@@ -216,10 +231,13 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
     }
     // MARK: dropzone methosd
     func dropInteraction(_ interaction: UIDropInteraction, canHandle session: UIDropSession) -> Bool {
-        return session.canLoadObjects(ofClass: NSURL.self) && session.canLoadObjects(ofClass: UIImage.self)
+        return (session.canLoadObjects(ofClass: NSURL.self) && session.canLoadObjects(ofClass: UIImage.self)) || session.canLoadObjects(ofClass: NSAttributedString.self)
     }
     func dropInteraction(_ interaction: UIDropInteraction, sessionDidUpdate session: UIDropSession) -> UIDropProposal {
-        return UIDropProposal(operation: .copy)
+        
+        return UIDropProposal(operation:((session.localDragSession?.localContext as? UICollectionView) == emojisCollectionView) ? .move : .copy)
+        
+//        return UIDropProposal(operation: .copy)
     }
     func dropInteraction(_ interaction: UIDropInteraction, performDrop session: UIDropSession) {
         imageFeacher = ImageFetcher(){(url, image) in
@@ -237,6 +255,16 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
         session.loadObjects(ofClass: UIImage.self, completion: { images in
             if let image = images.first as? UIImage{
                 self.imageFeacher.backup = image
+            }
+        })
+        session.loadObjects(ofClass: NSAttributedString.self, completion: { strings in
+            if let string = strings.first as? NSAttributedString{
+                if let index = self.emojies.firstIndex(of: string.string){
+                    self.emojisCollectionView.performBatchUpdates({
+                        self.emojies.remove(at: index)
+                        self.emojisCollectionView.deleteItems(at: [IndexPath(item: index, section: 1)])
+                    })
+                }
             }
         })
     }

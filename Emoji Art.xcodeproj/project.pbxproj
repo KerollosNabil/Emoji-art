@@ -20,6 +20,7 @@
 		046A0E662479B15100E6F5F9 /* EmojiArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046A0E5F2479B15100E6F5F9 /* EmojiArt.swift */; };
 		046A0E672479B15100E6F5F9 /* EmojiArtView+Gestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046A0E602479B15100E6F5F9 /* EmojiArtView+Gestures.swift */; };
 		046A0E682479B15100E6F5F9 /* EnojiArtViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046A0E612479B15100E6F5F9 /* EnojiArtViewController.swift */; };
+		04AA8CAE247FD62D009DF941 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 04AA8CAD247FD62D009DF941 /* delete.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -51,6 +52,7 @@
 		046A0E5F2479B15100E6F5F9 /* EmojiArt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojiArt.swift; sourceTree = "<group>"; };
 		046A0E602479B15100E6F5F9 /* EmojiArtView+Gestures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EmojiArtView+Gestures.swift"; sourceTree = "<group>"; };
 		046A0E612479B15100E6F5F9 /* EnojiArtViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnojiArtViewController.swift; sourceTree = "<group>"; };
+		04AA8CAD247FD62D009DF941 /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 				046A0E5B2479B15100E6F5F9 /* Utilities.swift */,
 				046A0E5F2479B15100E6F5F9 /* EmojiArt.swift */,
 				046A0E542479A58700E6F5F9 /* Info.plist */,
+				04AA8CAD247FD62D009DF941 /* delete.png */,
 				046A0E5A2479A5D800E6F5F9 /* Supporting Files */,
 			);
 			path = "Emoji Art";
@@ -168,6 +171,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				04AA8CAE247FD62D009DF941 /* delete.png in Resources */,
 				046A0E532479A58700E6F5F9 /* LaunchScreen.storyboard in Resources */,
 				046A0E502479A58700E6F5F9 /* Assets.xcassets in Resources */,
 				046A0E4E2479A58400E6F5F9 /* Main.storyboard in Resources */,
