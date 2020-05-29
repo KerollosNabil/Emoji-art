@@ -34,11 +34,10 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
     
     private var emojiArt: EmojiArt?{
         get{
-            if let url = emojiArtBackgeound.url {
-                let emojies = emojiAetView.subviews.compactMap {$0 as? UILabel}.compactMap{EmojiArt.emojiDetails(label: $0)}
-                return EmojiArt(url: url, emojies: emojies)
-            }
-            return nil
+            let url = emojiArtBackgeound.url
+            let emojies = emojiAetView.subviews.compactMap {$0 as? UILabel}.compactMap{EmojiArt.emojiDetails(label: $0)}
+            return EmojiArt(url: url, emojies: emojies, choises: self.emojies)
+            
         }set{
             emojiArtBackgeound = (nil,nil)
             emojiAetView.subviews.forEach({
@@ -48,7 +47,7 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
                 imageFeacher = ImageFetcher(fetch: url, handler: {(imgUrl, image) in
                     DispatchQueue.main.async {
                         self.emojiArtBackgeound = (imgUrl, image)
-                        newValue?.emijies.forEach({
+                        newValue?.emijies?.forEach({
                             self.emojiAetView.addLabel(with: $0.emoji.attributedString(withTextStyle: .body, ofSize: CGFloat($0.size)), centeredAt: CGPoint(x: $0.x, y: $0.y))
                         })
                         
@@ -217,6 +216,10 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
             if success{
                 self.title = self.document?.localizedName
                 self.emojiArt = self.document?.emojiArt
+                if let currentEmojis = self.document?.emojiArt?.emojiChoises{
+                    self.emojies = currentEmojis
+                }
+                self.emojisCollectionView.reloadData()
             }
         })
     }
@@ -265,6 +268,7 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
                         self.emojisCollectionView.deleteItems(at: [IndexPath(item: index, section: 1)])
                     })
                 }
+                self.viewHasChanged()
             }
         })
     }
@@ -311,6 +315,7 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
                     }
                     self?.takingInput = false
                     self?.emojisCollectionView.reloadData()
+                    self?.viewHasChanged()
                 }
             
             }
@@ -390,5 +395,6 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
                 }
             }
         }
+        viewHasChanged()
     }
 }
