@@ -184,16 +184,30 @@
                         <viewLayoutGuide key="safeArea" id="3Bs-Zp-cY5"/>
                     </view>
                     <navigationItem key="navigationItem" id="idW-5P-IWA">
-                        <barButtonItem key="leftBarButtonItem" systemItem="done" id="xFg-iX-yoy">
-                            <connections>
-                                <action selector="close:" destination="9ho-EN-HnA" id="OYj-gj-vF1"/>
-                            </connections>
-                        </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" title="Save Snapshot" id="Yls-bO-vkv">
-                            <connections>
-                                <action selector="saveImage:" destination="9ho-EN-HnA" id="uZJ-CW-73a"/>
-                            </connections>
-                        </barButtonItem>
+                        <leftBarButtonItems>
+                            <barButtonItem systemItem="done" id="xFg-iX-yoy">
+                                <connections>
+                                    <action selector="close:" destination="9ho-EN-HnA" id="OYj-gj-vF1"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="undo" id="dwL-eb-gJT">
+                                <connections>
+                                    <action selector="undo:" destination="9ho-EN-HnA" id="pUb-Et-BAb"/>
+                                </connections>
+                            </barButtonItem>
+                        </leftBarButtonItems>
+                        <rightBarButtonItems>
+                            <barButtonItem title="Save Snapshot" id="Yls-bO-vkv">
+                                <connections>
+                                    <action selector="saveImage:" destination="9ho-EN-HnA" id="uZJ-CW-73a"/>
+                                </connections>
+                            </barButtonItem>
+                            <barButtonItem systemItem="redo" id="YFP-5y-n4D">
+                                <connections>
+                                    <action selector="redo:" destination="9ho-EN-HnA" id="CfS-zf-b3I"/>
+                                </connections>
+                            </barButtonItem>
+                        </rightBarButtonItems>
                     </navigationItem>
                     <connections>
                         <outlet property="deleteButton" destination="Yie-ip-tLv" id="rFo-31-87z"/>
@@ -201,6 +215,8 @@
                         <outlet property="emojisCollectionView" destination="8wo-u2-Glb" id="jlR-O5-xea"/>
                         <outlet property="hightOfScrollView" destination="cTU-xP-V12" id="RC5-Mc-wOj"/>
                         <outlet property="imageScrollView" destination="Sqn-E9-qmx" id="jdy-UV-4Ke"/>
+                        <outlet property="redoButton" destination="YFP-5y-n4D" id="E10-l9-O7B"/>
+                        <outlet property="undoButton" destination="dwL-eb-gJT" id="soX-a8-d1r"/>
                         <outlet property="widthOfScrollView" destination="H8R-z6-uMS" id="OTc-MO-XD9"/>
                     </connections>
                 </viewController>

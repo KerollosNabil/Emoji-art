@@ -9,7 +9,11 @@
 import Foundation
 
 
-struct EmojiArt : Codable{
+struct EmojiArt : Codable, Equatable{
+    static func == (lhs: EmojiArt, rhs: EmojiArt) -> Bool {
+        return lhs.url == rhs.url && lhs.emijies == rhs.emijies && lhs.emojiChoises == rhs.emojiChoises
+    }
+    
     var url:URL?
     var emijies: [emojiDetails]?
     var emojiChoises: [String]?
@@ -17,7 +21,10 @@ struct EmojiArt : Codable{
         return try? JSONEncoder().encode(self)
     }
     
-    struct emojiDetails:Codable{
+    struct emojiDetails:Codable, Equatable{
+        static func == (lhs: emojiDetails, rhs: emojiDetails) -> Bool {
+            return lhs.emoji == rhs.emoji && lhs.x == rhs.x && lhs.y == rhs.y && lhs.size == rhs.size
+        }
         let emoji:String
         let x:Double
         let y:Double

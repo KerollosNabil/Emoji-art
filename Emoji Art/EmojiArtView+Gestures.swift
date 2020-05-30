@@ -38,20 +38,25 @@ extension EmojiArtView
     }
     
     @objc func selectAndMoveSubview(by recognizer: UIPanGestureRecognizer) {
+        
         switch recognizer.state {
         case .began:
+            self.delegate?.viewWillChange()
             if selectedSubview != nil, recognizer.view != nil {
                 selectedSubview = recognizer.view
             }
-        case .changed, .ended:
+        case .changed:
             if selectedSubview != nil {
                 recognizer.view?.center = recognizer.view!.center.offset(by: recognizer.translation(in: self))
                 recognizer.setTranslation(CGPoint.zero, in: self)
             }
+            
+        case .ended:
+            self.delegate?.viewHasChanged()
         default:
             break
         }
-        self.delegate?.viewHasChanged()
+        
 
     }
     
@@ -84,17 +89,25 @@ extension EmojiArtView
     }
     
     @objc func resizeSelectedLabel(by recognizer: UIPinchGestureRecognizer) {
+        
         switch recognizer.state {
-        case .changed, .ended:
+        case .began:
+            self.delegate?.viewWillChange()
+        case .changed:
+            
             if let label = selectedSubview as? UILabel {
                 label.attributedText = label.attributedText?.withFontScaled(by: recognizer.scale)
                 label.stretchToFit()
                 recognizer.scale = 1.0
+                
             }
+            
+        case .ended:
+            self.delegate?.viewHasChanged()
         default:
             break
         }
-        self.delegate?.viewHasChanged()
+        
 
     }
     

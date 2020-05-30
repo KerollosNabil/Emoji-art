@@ -24,14 +24,24 @@ extension EmojiArt.emojiDetails{
 }
 
 class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScrollViewDelegate, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UICollectionViewDragDelegate, UICollectionViewDropDelegate, UIDocumentBrowserViewControllerDelegate, EmojiArtDelegate {
+    
+    // MARK: view Delegate
+    
+    func viewWillChange() {
+        emojiArtPrev = emojiArt
+    }
+    
     func viewHasChanged() {
+        if emojiArt != emojiArtPrev{
+            emojiViewDidChange(from: emojiArtPrev)
+        }
         save()
     }
     
     
     
     // MARK: model
-    
+    private var emojiArtPrev: EmojiArt?
     private var emojiArt: EmojiArt?{
         get{
             let url = emojiArtBackgeound.url
@@ -39,19 +49,35 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
             return EmojiArt(url: url, emojies: emojies, choises: self.emojies)
             
         }set{
-            emojiArtBackgeound = (nil,nil)
+            if let currentEmojis = newValue?.emojiChoises{
+                self.emojies = currentEmojis
+            }
+            self.emojisCollectionView.reloadData()
             emojiAetView.subviews.forEach({
                 $0.removeFromSuperview()
             })
-            if let url = newValue?.url{
-                imageFeacher = ImageFetcher(fetch: url, handler: {(imgUrl, image) in
-                    DispatchQueue.main.async {
-                        self.emojiArtBackgeound = (imgUrl, image)
-                        newValue?.emijies?.forEach({
-                            self.emojiAetView.addLabel(with: $0.emoji.attributedString(withTextStyle: .body, ofSize: CGFloat($0.size)), centeredAt: CGPoint(x: $0.x, y: $0.y))
-                        })
-                        
-                    }
+            if self.emojiArtBackgeound.image == nil{
+                
+            
+                emojiArtBackgeound = (nil,nil)
+                emojiAetView.subviews.forEach({
+                    $0.removeFromSuperview()
+                })
+                if let url = newValue?.url{
+                    imageFeacher = ImageFetcher(fetch: url, handler: {(imgUrl, image) in
+                        DispatchQueue.main.async {
+                            self.emojiArtBackgeound = (imgUrl, image)
+                            newValue?.emijies?.forEach({
+                                self.emojiAetView.addLabel(with: $0.emoji.attributedString(withTextStyle: .body, ofSize: CGFloat($0.size)), centeredAt: CGPoint(x: $0.x, y: $0.y))
+                            })
+                            
+                        }
+                    })
+                }
+            }else {
+                
+                newValue?.emijies?.forEach({
+                    self.emojiAetView.addLabel(with: $0.emoji.attributedString(withTextStyle: .body, ofSize: CGFloat($0.size)), centeredAt: CGPoint(x: $0.x, y: $0.y))
                 })
             }
         }
@@ -124,10 +150,31 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
     @IBOutlet weak var widthOfScrollView: NSLayoutConstraint!
     
     @IBOutlet weak var hightOfScrollView: NSLayoutConstraint!
+    @IBOutlet weak var undoButton: UIBarButtonItem!{
+        didSet{
+            undoButton.isEnabled = document?.undoManager.canUndo ?? false
+        }
+    }
     
+    @IBOutlet weak var redoButton: UIBarButtonItem!{
+        didSet{
+            redoButton.isEnabled = document?.undoManager.canRedo ?? false
+        }
+    }
     
     // MARK: actions
     
+    @IBAction func redo(_ sender: UIBarButtonItem) {
+        
+            document?.undoManager.redo()
+        
+    }
+    
+    @IBAction func undo(_ sender: UIBarButtonItem) {
+//        if emojiArt != emojiArtPrev{
+            document?.undoManager.undo()
+//        }
+    }
     
     func save() {
         document?.emojiArt = emojiArt
@@ -163,6 +210,7 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
         let labels = emojiAetView.subviews.compactMap {$0 as? UILabel}
         for label in labels{
             if label.layer.borderWidth == 1 {
+                viewWillChange()
                 label.removeFromSuperview()
                 viewHasChanged()
             }
@@ -199,7 +247,7 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
         }
     }
     
-    //MAEK: life sicles
+    //MARK: life sicles
     
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -216,14 +264,39 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
             if success{
                 self.title = self.document?.localizedName
                 self.emojiArt = self.document?.emojiArt
-                if let currentEmojis = self.document?.emojiArt?.emojiChoises{
-                    self.emojies = currentEmojis
-                }
-                self.emojisCollectionView.reloadData()
+                
             }
         })
     }
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        becomeFirstResponder()
+        resignFirstResponder()
+    }
+    override var canBecomeFirstResponder: Bool{
+        return true
+    }
+    // MARK: redo/undo
     
+    private func emojiViewDidChange(from fromEmojiArt: EmojiArt?) {
+        
+        document?.undoManager.registerUndo(withTarget: self) { target in
+            if let currentStateOfEmojiArt = self.emojiArt {
+                self.emojiArt = fromEmojiArt
+                if currentStateOfEmojiArt != fromEmojiArt{
+                    self.emojiViewDidChange(from: currentStateOfEmojiArt)
+                    
+                }
+                self.viewHasChanged()
+            }
+        }
+        if let undoo = document?.undoManager.canUndo {
+            self.undoButton.isEnabled = undoo
+        }
+        if let redoo = document?.undoManager.canRedo {
+            self.redoButton.isEnabled = redoo
+        }
+    }
     // MARK: scrollview methods
     func scrollViewDidZoom(_ scrollView: UIScrollView) {
         widthOfScrollView.constant = scrollView.contentSize.width
@@ -261,7 +334,8 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
             }
         })
         session.loadObjects(ofClass: NSAttributedString.self, completion: { strings in
-            if let string = strings.first as? NSAttributedString{
+            for string in strings as? [NSAttributedString] ?? []{
+                self.viewWillChange()
                 if let index = self.emojies.firstIndex(of: string.string){
                     self.emojisCollectionView.performBatchUpdates({
                         self.emojies.remove(at: index)
@@ -304,11 +378,11 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
         }else if takingInput {
             
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "InputCell", for: indexPath)
-            print(cell.frame)
             if let inputCell = cell as? InputCollectionViewCell{
                 inputCell.InputField.sizeToFit()
                 inputCell.InputField.frame = cell.frame
                 inputCell.resignationHandeler = {[weak self, unowned inputCell] in
+                    self?.viewWillChange()
                     if let text = inputCell.InputField.text {
                         self?.emojies = (text.map({String($0)}) + self!.emojies).uniquified
                          
@@ -369,6 +443,7 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
     func collectionView(_ collectionView: UICollectionView, performDropWith coordinator: UICollectionViewDropCoordinator) {
         let destenationIndexPath = coordinator.destinationIndexPath ?? IndexPath(item: 0, section: 0)
         for item in  coordinator.items {
+            viewWillChange()
             if let sourceIndexPath =  item.sourceIndexPath {
                 if let attrStr = item.dragItem.localObject as? NSAttributedString{
                     collectionView.performBatchUpdates({
