@@ -54,7 +54,7 @@
                                     <constraint firstItem="Sqn-E9-qmx" firstAttribute="top" relation="greaterThanOrEqual" secondItem="6tW-ii-dGY" secondAttribute="top" id="nBO-qX-gLr"/>
                                 </constraints>
                             </view>
-                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="8wo-u2-Glb">
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="8wo-u2-Glb" customClass="EmojiCollection" customModule="Emoji_Art" customModuleProvider="target">
                                 <rect key="frame" x="128" y="50" width="1238" height="120"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Sal-4e-rgk">
@@ -122,7 +122,7 @@
                                                     <fontDescription key="fontDescription" type="system" pointSize="100"/>
                                                     <state key="normal" title="+"/>
                                                     <connections>
-                                                        <action selector="addEmoji:" destination="9ho-EN-HnA" eventType="touchUpInside" id="DXD-by-mdM"/>
+                                                        <action selector="addEmoji:" destination="8wo-u2-Glb" eventType="touchUpInside" id="wyl-Iy-ZEw"/>
                                                     </connections>
                                                 </button>
                                             </subviews>

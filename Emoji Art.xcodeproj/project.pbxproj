@@ -20,6 +20,7 @@
 		046A0E662479B15100E6F5F9 /* EmojiArt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046A0E5F2479B15100E6F5F9 /* EmojiArt.swift */; };
 		046A0E672479B15100E6F5F9 /* EmojiArtView+Gestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046A0E602479B15100E6F5F9 /* EmojiArtView+Gestures.swift */; };
 		046A0E682479B15100E6F5F9 /* EnojiArtViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046A0E612479B15100E6F5F9 /* EnojiArtViewController.swift */; };
+		046BBE0124846CF10000182A /* EmojiCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 046BBE0024846CF10000182A /* EmojiCollection.swift */; };
 		04AA8CAE247FD62D009DF941 /* delete.png in Resources */ = {isa = PBXBuildFile; fileRef = 04AA8CAD247FD62D009DF941 /* delete.png */; };
 /* End PBXBuildFile section */
 
@@ -52,6 +53,7 @@
 		046A0E5F2479B15100E6F5F9 /* EmojiArt.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmojiArt.swift; sourceTree = "<group>"; };
 		046A0E602479B15100E6F5F9 /* EmojiArtView+Gestures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EmojiArtView+Gestures.swift"; sourceTree = "<group>"; };
 		046A0E612479B15100E6F5F9 /* EnojiArtViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EnojiArtViewController.swift; sourceTree = "<group>"; };
+		046BBE0024846CF10000182A /* EmojiCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCollection.swift; sourceTree = "<group>"; };
 		04AA8CAD247FD62D009DF941 /* delete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = delete.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,6 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				046A0E4C2479A58400E6F5F9 /* Main.storyboard */,
+				046BBE0024846CF10000182A /* EmojiCollection.swift */,
 				046A0E462479A58400E6F5F9 /* DocumentBrowserViewController.swift */,
 				046A0E612479B15100E6F5F9 /* EnojiArtViewController.swift */,
 				046A0E5D2479B15100E6F5F9 /* EmojiArtView.swift */,
@@ -194,6 +197,7 @@
 				046A0E622479B15100E6F5F9 /* Utilities.swift in Sources */,
 				046A0E452479A58400E6F5F9 /* AppDelegate.swift in Sources */,
 				046A0E682479B15100E6F5F9 /* EnojiArtViewController.swift in Sources */,
+				046BBE0124846CF10000182A /* EmojiCollection.swift in Sources */,
 				046A0E642479B15100E6F5F9 /* EmojiArtView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
