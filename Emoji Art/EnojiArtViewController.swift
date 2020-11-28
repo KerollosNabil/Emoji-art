@@ -23,10 +23,30 @@ extension EmojiArt.emojiDetails{
     }
 }
 
-class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScrollViewDelegate, UIDocumentBrowserViewControllerDelegate, EmojiArtDelegate {
+class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScrollViewDelegate, UIDocumentBrowserViewControllerDelegate, EmojiArtDelegate, UIPopoverPresentationControllerDelegate {
     
     // MARK: view Delegate
-    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "show document info" {
+            if let description = segue.destination as? DocumentInfoViewController {
+                document?.thumbnail = emojiAetView.snapshot
+                description.document = self.document
+                if let pcc = description.popoverPresentationController {
+                    pcc.delegate = self
+                }
+            }
+        }
+        if segue.identifier == "cont"{
+            ContainerDocInfo = segue.destination.contents as? DocumentInfoViewController
+        }
+    }
+    var ContainerDocInfo :DocumentInfoViewController?
+    @IBAction func closeDocument(bySegue: UIStoryboardSegue){
+        close()
+    }
+    func adaptivePresentationStyle(for controller: UIPresentationController) -> UIModalPresentationStyle {
+        return .none
+    }
     func viewWillChange() {
         emojiArtPrev = emojiArt
     }
@@ -34,6 +54,12 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
     func viewHasChanged() {
         if emojiArt != emojiArtPrev{
             emojiViewDidChange(from: emojiArtPrev)
+        }
+        if self.document?.documentState == .normal, self.ContainerDocInfo != nil{
+            self.ContainerDocInfo?.document = self.document
+            self.containerViewHight.constant = self.ContainerDocInfo?.preferredContentSize.height ?? CGFloat.zero
+            self.containerViewWidth.constant = self.ContainerDocInfo?.preferredContentSize.width ?? CGFloat.zero
+            
         }
         save()
     }
@@ -155,6 +181,8 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
         }
     }
     
+    @IBOutlet weak var containerViewHight: NSLayoutConstraint!
+    @IBOutlet weak var containerViewWidth: NSLayoutConstraint!
     // MARK: actions
     
     @IBAction func redo(_ sender: UIBarButtonItem) {
@@ -176,11 +204,11 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
         }
     }
     
-    @IBAction func close(_ sender: UIBarButtonItem) {
+    @IBAction func close(_ sender: UIBarButtonItem? = nil) {
         if document?.emojiArt != nil {
             document?.thumbnail = emojiAetView.snapshot
         }
-        dismiss(animated: true, completion: {
+        presentingViewController?.dismiss(animated: true, completion: {
             self.document?.close()
         })
         
@@ -241,9 +269,10 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
     
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        if size.width > 0, size.height > 0{
-            imageScrollView.zoomScale = max(drobZone.bounds.width/size.width, drobZone.bounds.height/size.height)
-        }
+        super.viewWillTransition(to: size, with: coordinator)
+        
+        emojisCollectionView.font.withSize(size.height*0.7)
+        emojisCollectionView.reloadData()
 //        emojiAetView.setNeedsLayout()
 //        emojiAetView.setNeedsDisplay()
         
@@ -254,7 +283,12 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
             if success{
                 self.title = self.document?.localizedName
                 self.emojiArt = self.document?.emojiArt
-                
+                if self.document?.documentState == .normal, self.ContainerDocInfo != nil{
+                    self.ContainerDocInfo?.document = self.document
+                    self.containerViewHight.constant = self.ContainerDocInfo?.preferredContentSize.height ?? CGFloat.zero
+                    self.containerViewWidth.constant = self.ContainerDocInfo?.preferredContentSize.width ?? CGFloat.zero
+                    
+                }
             }
         })
     }
@@ -266,6 +300,7 @@ class EnojiArtViewController: UIViewController, UIDropInteractionDelegate, UIScr
     override var canBecomeFirstResponder: Bool{
         return true
     }
+    
     // MARK: redo/undo
     
     private func emojiViewDidChange(from fromEmojiArt: EmojiArt?) {

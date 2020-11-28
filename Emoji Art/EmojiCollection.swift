@@ -29,7 +29,12 @@ class EmojiCollection: UICollectionView, UICollectionViewDataSource, UICollectio
     }
     
     
-    
+//    @IBOutlet weak var addButton: UIButton!{
+//        didSet{
+//            addButton.titleLabel?.font = font
+//        }
+//    }
+//    
     @IBAction func addEmoji(_ sender: Any) {
         takingInput = true
         self.reloadSections(IndexSet(integer: 0))
@@ -37,8 +42,8 @@ class EmojiCollection: UICollectionView, UICollectionViewDataSource, UICollectio
     
     var viewDelegate:EmojiArtDelegate?
     private var takingInput = false
-    private var font :UIFont{
-        return UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.preferredFont(forTextStyle: .body).withSize(80))
+    var font :UIFont{
+        return UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.preferredFont(forTextStyle: .body).withSize(self.frame.height*0.7))
     }
     var emojies = "😀😁👶👧🧒👦👩👯‍♂️🕴🚶‍♀️🚶‍♂️🐨🐯🦁🐮🐷⚽️🏀🏈⚾️🥎🍏🍎🍐🍊🍋🍌🥐🥯🍞🥖🥨🧀🚗🚙🚕🚌🚎⌚️📱💻⌨️🖥🖨🏳️🏴🏁🚩🏳️‍🌈🏴‍☠️🇦🇫🇦🇽🇦🇱".map {return String($0)}
     
@@ -93,9 +98,9 @@ class EmojiCollection: UICollectionView, UICollectionViewDataSource, UICollectio
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         if indexPath.section == 0, takingInput {
-            return CGSize(width: 400, height: 110)
+            return CGSize(width: self.frame.width/2, height: self.frame.height)
         }else{
-            return CGSize(width: 110, height: 110)
+            return CGSize(width: self.frame.height, height: self.frame.height)
         }
     }
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
